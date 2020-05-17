@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/mui.min.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="fonticon/iconfont.css" />
+		<link rel="stylesheet" href="css/header.css" />
+		<script type="text/javascript" charset="utf-8">
+			mui.init({
+				gestureConfig: {
+					tap: true
+				}
+			});
+
+			mui.plusReady(function() {
+				plus.navigator.setStatusBarStyle("light");
+				plus.navigator.setStatusBarBackground("#66CCFF");
+
+			});
+		</script>
+	</head>
+	<body>
+
+		<header class="mui-bar mui-bar-nav title">
+			<h1 id="nisechat_title" class="mui-title title-color"><b>伪信</b></h1>
+		</header>
+
+		<nav class="mui-bar mui-bar-tab">
+			<a class="mui-tab-item mui-active" tabindex="0">
+				<span class="mui-icon iconfont icon-lv_zuanshi_fill"></span>
+				<span class="mui-tab-label">伪信</span>
+			</a>
+			<a class="mui-tab-item" tabindex="1">
+				<span class="mui-icon iconfont icon-tongxunlu"></span>
+				<span class="mui-tab-label">通讯录</span>
+			</a>
+			<a class="mui-tab-item" tabindex="2">
+				<span class="mui-icon iconfont icon-compass"></span>
+				<span class="mui-tab-label">发现</span>
+			</a>
+			<a class="mui-tab-item" tabindex="3">
+				<span class="mui-icon mui-icon-contact"></span>
+				<span class="mui-tab-label">我</span>
+			</a>
+		</nav>
+		<script src="js/app.js"></script>
+		<script type="text/javascript">
+			var chatArr = [{
+					pageId: "chatlist.html",
+					pageUrl: "chatlist.html"
+				},
+				{
+					pageId: "contact.html",
+					pageUrl: "contact.html"
+				},
+				{
+					pageId: "discover.html",
+					pageUrl: "discover.html"
+				},
+				{
+					pageId: "me.html",
+					pageUrl: "me.html"
+				}
+			];
+
+			var niseStyle = {
+				top: "44px",
+				bottom: "50px"
+			}
+
+			mui.plusReady(function() {
+
+
+
+
+				//禁止返回登录注册页面
+				mui.back = function() {
+					return false;
+				}
+
+
+				// 对网络连接进行事件监听
+				netChangeSwitch();
+
+				//获取当前webview对象
+				var indexWebview = plus.webview.currentWebview();
+
+				for (var i = 0; i < chatArr.length; i++) {
+					var chatPage = plus.webview.create(chatArr[i].pageUrl, chatArr[i].pageId, niseStyle);
+					//隐藏窗口
+					chatPage.hide();
+					//追加子页面到主页面
+					indexWebview.append(chatPage);
+				}
+				plus.webview.show(chatArr[0].pageId);
+
+
+				//批量绑定tap事件
+				mui(".mui-bar-tab").on("tap", "a", function() {
+
+					var tabIndex = this.getAttribute("tabindex");
+					//显示点击的tab对应的页面
+					plus.webview.show(chatArr[tabIndex].pageId, "fade-in", 200);
+
+					//隐藏其他页面
+					for (var i = 0; i < chatArr.length; i++) {
+						if (i != tabIndex) {
+							plus.webview.hide(chatArr[i].pageId, "fade-out", 200);
+						}
+					}
+
+				});
+				setTimeout("initData()", "1000");
+
+
+			});
+
+			// 监听网络状态更改
+			function netChangeSwitch() {
+				document.addEventListener("netchange", function() {
+					// 网络状态获取和判断
+					var connectionStatus = plus.networkinfo.getCurrentType();
+					if (connectionStatus != 0 && connectionStatus != 1) {
+						// 重新打开网络连接
+						var nisechat_title = document.getElementById("nisechat_title");
+						nisechat_title.innerHTML = "<b>伪信</b>";
+					} else {
+						// 关闭网络连接
+						var nisechat_title = document.getElementById("nisechat_title");
+						nisechat_title.innerHTML = "<b>伪信(未连接)</b>";
+					}
+				}, {
+					passive: false
+				});
+			}
+
+			function initData() {
+				//console.log("init");
+				var cahtlist = plus.webview.getWebviewById("chatlist.html");
+				mui.fire(cahtlist, "refresh");
+				//cahtlist.show();
+
+				var me = plus.webview.getWebviewById("me.html");
+				mui.fire(me, "refresh");
+			}
+		</script>
+
+	</body>
+</html>

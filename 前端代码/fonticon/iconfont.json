@@ -1,0 +1,44 @@
+{
+  "id": "1701385",
+  "name": "NiseChat",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "1800718",
+      "name": "指南针",
+      "font_class": "compass",
+      "unicode": "e653",
+      "unicode_decimal": 58963
+    },
+    {
+      "icon_id": "4183346",
+      "name": "AK-LV砖石_fill",
+      "font_class": "lv_zuanshi_fill",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "6556747",
+      "name": "朋友圈",
+      "font_class": "pengyouquan",
+      "unicode": "e615",
+      "unicode_decimal": 58901
+    },
+    {
+      "icon_id": "8154848",
+      "name": "指南针",
+      "font_class": "MadebyMade-Vector-LineIcons-Nautical-Outline-",
+      "unicode": "e667",
+      "unicode_decimal": 58983
+    },
+    {
+      "icon_id": "9874534",
+      "name": "KHCFDC_通讯录",
+      "font_class": "tongxunlu",
+      "unicode": "e6dd",
+      "unicode_decimal": 59101
+    }
+  ]
+}
